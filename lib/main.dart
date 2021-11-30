@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sira/routes/app_routes.dart';
+import 'package:sira/state/add_remove_favorites_state.dart';
 import 'package:sira/state/main_state_page.dart';
 import 'package:sira/state/search_chapter_state.dart';
 
@@ -9,6 +10,7 @@ void main() {
 }
 
 class Main extends StatelessWidget {
+
   const Main({Key? key}) : super(key: key);
 
   @override
@@ -17,6 +19,7 @@ class Main extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => MainPageState()),
         ChangeNotifierProvider(create: (_) => SearchChapterState()),
+        ChangeNotifierProvider(create: (_) => AddRemoveFavoritesState()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

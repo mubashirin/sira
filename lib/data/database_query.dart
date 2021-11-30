@@ -36,17 +36,31 @@ class DatabaseQuery {
     return mainContent!;
   }
 
-  // Future<List<ChapterModelItem>> getChapterSearchResult(String text) async {
-  //   var dbClient = await con.db;
-  //   var res = await dbClient.rawQuery("SELECT * FROM Table_of_chapters WHERE _id LIKE '%$text%' OR chapter_title LIKE '%$text%'");
-  //   List<ChapterModelItem>? searchResult = res.isNotEmpty ? res.map((c) => ChapterModelItem.fromMap(c)).toList() : null;
-  //   return searchResult!;
-  // }
+  Future<List<ChapterModel>> getAllFavorites() async {
+    var dbClient = await con.db;
+    var res =
+        await dbClient.query('Table_of_chapters', where: 'favoriteState == 1');
+    List<ChapterModel>? mainFavorites = res.isNotEmpty
+        ? res.map((c) => ChapterModel.fromMap(c)).toList()
+        : null;
+    return mainFavorites!;
+  }
 
-  // addRemoveFavoriteChapter(int state, int _id) async {
-  //   var dbClient = await con.db;
-  //   await dbClient.rawQuery('UPDATE Table_of_chapters SET favorite_state = $state WHERE _id == $_id');
-  // }
+  addRemoveFavoriteChapter(int state, int id) async {
+    var dbClient = await con.db;
+    await dbClient.rawQuery(
+        'UPDATE Table_of_chapters SET favoriteState = $state WHERE id == $id');
+  }
+
+  Future<List<ChapterModel>> getChapterSearchResult(String text) async {
+    var dbClient = await con.db;
+    var res = await dbClient.rawQuery(
+        "SELECT * FROM Table_of_chapters WHERE id LIKE '%$text%' OR chapterName LIKE '%$text%'");
+    List<ChapterModel>? searchResult = res.isNotEmpty
+        ? res.map((c) => ChapterModel.fromMap(c)).toList()
+        : null;
+    return searchResult!;
+  }
 
   // Future<List<ChapterModelItem>> getFavoriteChapters() async {
   //   var dbClient = await con.db;

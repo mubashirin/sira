@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sira/model/chapter_arguments.dart';
 import 'package:sira/model/chapter_model.dart';
+import 'package:provider/provider.dart';
+import 'package:sira/state/add_remove_favorites_state.dart';
 
 class ChapterItem extends StatelessWidget {
   const ChapterItem({Key? key, required this.item, required this.index})
@@ -18,10 +20,17 @@ class ChapterItem extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                CupertinoIcons.bookmark,
+              icon: Icon(
+                item.favoriteState == 1
+                    ? CupertinoIcons.bookmark_solid
+                    : CupertinoIcons.bookmark,
               ),
+              onPressed: () {
+                context
+                    .read<AddRemoveFavoritesState>()
+                    .updateFavoriteButtonState(
+                        item.favoriteState == 0 ? 1 : 0, item.id!);
+              },
             ),
             const SizedBox(width: 16),
             Expanded(

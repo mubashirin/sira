@@ -16,7 +16,7 @@ class MainChapters extends StatelessWidget {
           shrinkWrap: true,
           itemBuilder: (contex, index) {
             return ChapterItem(
-              item: snapshot.data[index],
+              item: snapshot.data![index],
               index: index,
             );
           },

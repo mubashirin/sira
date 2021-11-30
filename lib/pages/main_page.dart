@@ -26,13 +26,13 @@ class MainPage extends StatelessWidget {
       ),
       body: _mainPages[context.watch<MainPageState>().getBottomNavigationIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.book_online),
+            icon: Icon(Icons.book),
             label: 'Главы',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
+            icon: Icon(Icons.bookmark),
             label: 'Избранное',
           ),
         ],
