@@ -1,4 +1,6 @@
 class SubChapterArguments {
   int? subChapterID;
-  SubChapterArguments(this.subChapterID);
+  String? subChapterName;
+
+  SubChapterArguments(this.subChapterID, this.subChapterName);
 }

@@ -5,8 +5,8 @@ import 'package:sira/model/chapter_model.dart';
 import 'package:provider/provider.dart';
 import 'package:sira/state/add_remove_favorites_state.dart';
 
-class ChapterItem extends StatelessWidget {
-  const ChapterItem({Key? key, required this.item, required this.index})
+class FavoriteItem extends StatelessWidget {
+  const FavoriteItem({Key? key, required this.item, required this.index})
       : super(key: key);
 
   final ChapterModel item;
@@ -32,8 +32,7 @@ class ChapterItem extends StatelessWidget {
                         item.favoriteState == 0 ? 1 : 0, item.id!);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor:
-                        item.favoriteState == 0 ? const Color(0xFF4F6D7A) : const Color(0xFF4F6D7A),
+                    backgroundColor: const Color(0xFF4F6D7A),
                     content: item.favoriteState == 0
                         ? const Text(
                             'Добавлено',

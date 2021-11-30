@@ -31,7 +31,7 @@ class SubChapterItem extends StatelessWidget {
         Navigator.pushNamed(
           context,
           '/content_chapter',
-          arguments: SubChapterArguments(item.id),
+          arguments: SubChapterArguments(item.id, item.subChapterName),
         );
       },
     );

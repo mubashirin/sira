@@ -8,4 +8,9 @@ class SearchChapterState with ChangeNotifier {
     _searchText = newText;
     notifyListeners();
   }
+
+  cleanValue() {
+    _searchText = '';
+    notifyListeners();
+  }
 }
