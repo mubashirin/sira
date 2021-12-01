@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:sira/data/database_query.dart';
 import 'package:sira/model/sub_chapter_arguments.dart';
 import 'package:sira/state/content_settings_state.dart';
@@ -64,11 +65,16 @@ class ChapterContentPage extends StatelessWidget {
                                     children: [
                                       Container(
                                         width: double.maxFinite,
-                                        margin: const EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 8),
+                                        margin: const EdgeInsets.only(
+                                            left: 16,
+                                            top: 16,
+                                            right: 16,
+                                            bottom: 8),
                                         padding: const EdgeInsets.all(16),
                                         decoration: BoxDecoration(
                                           color: const Color(0xFF4F6D7A),
-                                          borderRadius: BorderRadius.circular(15),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
                                         ),
                                         child: Center(
                                           child: Text(
@@ -97,17 +103,65 @@ class ChapterContentPage extends StatelessWidget {
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 16, right: 16, bottom: 16),
-                                  child: Text(
-                                    '${snapshot.data![_arguments.subChapterID!].chapterContent}',
-                                    style: TextStyle(
-                                      fontSize: context
-                                          .watch<ContentSettingsState>()
-                                          .getCurrentTextSize
-                                          .toDouble(),
-                                    ),
+                                  child: Html(
+                                    onLinkTap: (String? url,
+                                        RenderContext rendContext,
+                                        Map<String, String> attributes,
+                                        element) {
+                                      showCupertinoModalPopup(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            CupertinoActionSheet(
+                                          message: Html(
+                                            data: url,
+                                            style: {
+                                              '#': Style(
+                                                padding: EdgeInsets.zero,
+                                                margin: EdgeInsets.zero,
+                                                fontSize: const FontSize(18),
+                                              ),
+                                              'small': Style(
+                                                color: Colors.grey,
+                                                fontSize: const FontSize(10),
+                                              ),
+                                            },
+                                          ),
+                                          actions: [
+                                            CupertinoButton(
+                                              child: const Text(
+                                                'Закрыть',
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    data:
+                                        '${snapshot.data![_arguments.subChapterID!].chapterContent}',
+                                    style: {
+                                      '#': Style(
+                                        padding: EdgeInsets.zero,
+                                        margin: EdgeInsets.zero,
+                                        fontSize: const FontSize(19),
+                                      ),
+                                      'a': Style(
+                                        fontSize: const FontSize(16),
+                                        color: Colors.blue,
+                                      ),
+                                      'small': Style(
+                                        fontSize: const FontSize(12),
+                                        color: Colors.grey,
+                                      ),
+                                    },
                                   ),
                                 );
                               },
+                              childCount: 1
                             ),
                           ),
                         ],

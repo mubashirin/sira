@@ -5,10 +5,10 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseHelper {
-  static final DatabaseHelper _instance = DatabaseHelper.internal();
+class DatabaseHelperContent {
+  static final DatabaseHelperContent _instance = DatabaseHelperContent.internal();
 
-  factory DatabaseHelper() => _instance;
+  factory DatabaseHelperContent() => _instance;
   static Database? _db;
   final _databaseVersion = 1;
 
@@ -20,7 +20,7 @@ class DatabaseHelper {
     return _db!;
   }
 
-  DatabaseHelper.internal();
+  DatabaseHelperContent.internal();
 
   Future<Database> initializeDatabase() async {
     Directory? documentDirectory = Platform.isAndroid

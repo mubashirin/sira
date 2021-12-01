@@ -1,14 +1,16 @@
+import 'package:sira/data/database_helper_chapter.dart';
 import 'package:sira/model/chapter_model.dart';
 import 'package:sira/model/content_model.dart';
 import 'package:sira/model/sub_chapter_model.dart';
 
-import 'database_helper.dart';
+import 'database_helper_content.dart';
 
 class DatabaseQuery {
-  DatabaseHelper con = DatabaseHelper();
+  DatabaseHelperContent con = DatabaseHelperContent();
+  DatabaseHelperChapter conChapter = DatabaseHelperChapter();
 
   Future<List<ChapterModel>> getAllChapters() async {
-    var dbClient = await con.db;
+    var dbClient = await conChapter.db;
     var res = await dbClient.query('Table_of_chapters');
     List<ChapterModel>? mainChapters = res.isNotEmpty
         ? res.map((c) => ChapterModel.fromMap(c)).toList()
@@ -37,7 +39,7 @@ class DatabaseQuery {
   }
 
   Future<List<ChapterModel>> getAllFavorites() async {
-    var dbClient = await con.db;
+    var dbClient = await conChapter.db;
     var res =
         await dbClient.query('Table_of_chapters', where: 'favoriteState == 1');
     List<ChapterModel>? mainFavorites = res.isNotEmpty
@@ -47,18 +49,27 @@ class DatabaseQuery {
   }
 
   addRemoveFavoriteChapter(int state, int id) async {
-    var dbClient = await con.db;
+    var dbClient = await conChapter.db;
     await dbClient.rawQuery(
         'UPDATE Table_of_chapters SET favoriteState = $state WHERE id == $id');
   }
 
   Future<List<ChapterModel>> getChapterSearchResult(String text) async {
-    var dbClient = await con.db;
+    var dbClient = await conChapter.db;
+    List<ChapterModel>? result = [];
     var res = await dbClient.rawQuery(
         "SELECT * FROM Table_of_chapters WHERE id LIKE '%$text%' OR chapterName LIKE '%$text%'");
     List<ChapterModel>? searchResult = res.isNotEmpty
         ? res.map((c) => ChapterModel.fromMap(c)).toList()
         : null;
+
+    for (var i in res) {
+      print('Это res: ${res[0]['chapterName'].toString().toLowerCase()}');
+      if (i['chapterName'].toString().toLowerCase() == res[0]['chapterName'].toString().toLowerCase()) {
+        print('OK');
+      }
+    }
+    print('Это список: ${result}');
     return searchResult!;
   }
 
