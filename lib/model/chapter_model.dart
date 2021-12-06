@@ -10,4 +10,6 @@ class ChapterModel {
     chapterName = object['chapterName'];
     favoriteState = object['favoriteState'];
   }
+
+  String? get subChapterName => null;
 }

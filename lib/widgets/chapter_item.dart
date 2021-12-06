@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sira/data/database_query.dart';
 import 'package:sira/model/chapter_arguments.dart';
 import 'package:sira/model/chapter_model.dart';
 import 'package:provider/provider.dart';
 import 'package:sira/state/add_remove_favorites_state.dart';
 
 extension StringCasingExtension on String {
-  String toCapitalized() => length > 0 ? '${this[0].toUpperCase()}${substring(1)}' : '';
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1)}' : '';
 }
 
 class ChapterItem extends StatelessWidget {
@@ -67,11 +69,8 @@ class ChapterItem extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          '/sub_chapter',
-          arguments: ChapterArguments(item.id),
-        );
+        Navigator.pushNamed(context, '/sub_chapter',
+            arguments: ChapterArguments(item.id));
       },
     );
   }
