@@ -17,7 +17,8 @@ class ChapterContentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _arguments =
-        ModalRoute.of(context)!.settings.arguments as SubChapterArguments;
+    ModalRoute.of(context)!.settings.arguments as SubChapterArguments;
+    print('${_arguments.subChapterID}');
     return FutureBuilder<List>(
       future: _databaseQuery.getOneContentChapter(_arguments.subChapterID!),
       builder: (context, snapshot) {
@@ -79,12 +80,9 @@ class ChapterContentPage extends StatelessWidget {
                                         child: Center(
                                           child: Text(
                                             '${_arguments.subChapterName}',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Colors.white,
-                                              fontSize: context
-                                                  .watch<ContentSettingsState>()
-                                                  .getCurrentTextSize
-                                                  .toDouble(),
+                                              fontSize: 18,
                                             ),
                                             textAlign: TextAlign.center,
                                           ),
@@ -99,70 +97,71 @@ class ChapterContentPage extends StatelessWidget {
                           ),
                           SliverList(
                             delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 16, right: 16, bottom: 16),
-                                  child: Html(
-                                    onLinkTap: (String? url,
-                                        RenderContext rendContext,
-                                        Map<String, String> attributes,
-                                        element) {
-                                      showCupertinoModalPopup(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            CupertinoActionSheet(
-                                          message: Html(
-                                            data: url,
-                                            style: {
-                                              '#': Style(
-                                                padding: EdgeInsets.zero,
-                                                margin: EdgeInsets.zero,
-                                                fontSize: const FontSize(18),
-                                              ),
-                                              'small': Style(
-                                                color: Colors.grey,
-                                                fontSize: const FontSize(10),
-                                              ),
+                                (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 16, right: 16, bottom: 16),
+                                child: Html(
+                                  onLinkTap: (String? url,
+                                      RenderContext rendContext,
+                                      Map<String, String> attributes,
+                                      element) {
+                                    showCupertinoModalPopup(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          CupertinoActionSheet(
+                                        message: Html(
+                                          data: url,
+                                          style: {
+                                            '#': Style(
+                                              padding: EdgeInsets.zero,
+                                              margin: EdgeInsets.zero,
+                                              fontSize: const FontSize(18),
+                                            ),
+                                            'small': Style(
+                                              color: Colors.grey,
+                                              fontSize: const FontSize(10),
+                                            ),
+                                          },
+                                        ),
+                                        actions: [
+                                          CupertinoButton(
+                                            child: const Text(
+                                              'Закрыть',
+                                              style:
+                                                  TextStyle(color: Colors.red),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
                                             },
                                           ),
-                                          actions: [
-                                            CupertinoButton(
-                                              child: const Text(
-                                                'Закрыть',
-                                                style: TextStyle(
-                                                    color: Colors.red),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                    data:
-                                        '${snapshot.data![_arguments.subChapterID!].chapterContent}',
-                                    style: {
-                                      '#': Style(
-                                        padding: EdgeInsets.zero,
-                                        margin: EdgeInsets.zero,
-                                        fontSize: const FontSize(19),
+                                        ],
                                       ),
-                                      'a': Style(
-                                        fontSize: const FontSize(16),
-                                        color: Colors.blue,
-                                      ),
-                                      'small': Style(
-                                        fontSize: const FontSize(12),
-                                        color: Colors.grey,
-                                      ),
-                                    },
-                                  ),
-                                );
-                              },
-                              childCount: 1
-                            ),
+                                    );
+                                  },
+                                  data:
+                                      '${snapshot.data![0].chapterContent}',
+                                  style: {
+                                    '#': Style(
+                                      padding: EdgeInsets.zero,
+                                      margin: EdgeInsets.zero,
+                                      fontSize: FontSize(context
+                                          .watch<ContentSettingsState>()
+                                          .getCurrentTextSize
+                                          .toDouble()),
+                                    ),
+                                    'a': Style(
+                                      fontSize: const FontSize(16),
+                                      color: Colors.blue,
+                                    ),
+                                    'small': Style(
+                                      fontSize: const FontSize(12),
+                                      color: Colors.grey,
+                                    ),
+                                  },
+                                ),
+                              );
+                            }, childCount: 1),
                           ),
                         ],
                       ),

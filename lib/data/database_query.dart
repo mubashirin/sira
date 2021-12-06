@@ -10,7 +10,7 @@ class DatabaseQuery {
   DatabaseHelperChapter conChapter = DatabaseHelperChapter();
 
   Future<List<ChapterModel>> getAllChapters() async {
-    var dbClient = await conChapter.db;
+    var dbClient = await con.db;
     var res = await dbClient.query('Table_of_chapters');
     List<ChapterModel>? mainChapters = res.isNotEmpty
         ? res.map((c) => ChapterModel.fromMap(c)).toList()
@@ -21,7 +21,7 @@ class DatabaseQuery {
   Future<List<SubChapterModel>> getOneSubChapter(int itemId) async {
     var dbClient = await con.db;
     var res = await dbClient.query('Table_of_sub_chapter',
-        where: 'displayBy = $itemId');
+        where: 'displayBy == $itemId');
     List<SubChapterModel>? mainSubChapters = res.isNotEmpty
         ? res.map((c) => SubChapterModel.fromMap(c)).toList()
         : null;
@@ -31,7 +31,7 @@ class DatabaseQuery {
   Future<List<ContentModel>> getOneContentChapter(int itemId) async {
     var dbClient = await con.db;
     var res = await dbClient.query('Table_of_chapter_content',
-        where: 'displayBy = $itemId');
+        where: 'id == $itemId');
     List<ContentModel>? mainContent = res.isNotEmpty
         ? res.map((c) => ContentModel.fromMap(c)).toList()
         : null;
@@ -39,7 +39,7 @@ class DatabaseQuery {
   }
 
   Future<List<ChapterModel>> getAllFavorites() async {
-    var dbClient = await conChapter.db;
+    var dbClient = await con.db;
     var res =
         await dbClient.query('Table_of_chapters', where: 'favoriteState == 1');
     List<ChapterModel>? mainFavorites = res.isNotEmpty
@@ -49,27 +49,18 @@ class DatabaseQuery {
   }
 
   addRemoveFavoriteChapter(int state, int id) async {
-    var dbClient = await conChapter.db;
+    var dbClient = await con.db;
     await dbClient.rawQuery(
         'UPDATE Table_of_chapters SET favoriteState = $state WHERE id == $id');
   }
 
   Future<List<ChapterModel>> getChapterSearchResult(String text) async {
-    var dbClient = await conChapter.db;
-    List<ChapterModel>? result = [];
+    var dbClient = await con.db;
     var res = await dbClient.rawQuery(
         "SELECT * FROM Table_of_chapters WHERE id LIKE '%$text%' OR chapterName LIKE '%$text%'");
     List<ChapterModel>? searchResult = res.isNotEmpty
         ? res.map((c) => ChapterModel.fromMap(c)).toList()
         : null;
-
-    for (var i in res) {
-      print('Это res: ${res[0]['chapterName'].toString().toLowerCase()}');
-      if (i['chapterName'].toString().toLowerCase() == res[0]['chapterName'].toString().toLowerCase()) {
-        print('OK');
-      }
-    }
-    print('Это список: ${result}');
     return searchResult!;
   }
 

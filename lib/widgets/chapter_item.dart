@@ -5,6 +5,10 @@ import 'package:sira/model/chapter_model.dart';
 import 'package:provider/provider.dart';
 import 'package:sira/state/add_remove_favorites_state.dart';
 
+extension StringCasingExtension on String {
+  String toCapitalized() => length > 0 ? '${this[0].toUpperCase()}${substring(1)}' : '';
+}
+
 class ChapterItem extends StatelessWidget {
   const ChapterItem({Key? key, required this.item, required this.index})
       : super(key: key);
@@ -16,7 +20,7 @@ class ChapterItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
             IconButton(
@@ -32,8 +36,9 @@ class ChapterItem extends StatelessWidget {
                         item.favoriteState == 0 ? 1 : 0, item.id!);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor:
-                        item.favoriteState == 0 ? const Color(0xFF4F6D7A) : const Color(0xFF4F6D7A),
+                    backgroundColor: item.favoriteState == 0
+                        ? const Color(0xFF4F6D7A)
+                        : const Color(0xFF4F6D7A),
                     content: item.favoriteState == 0
                         ? const Text(
                             'Добавлено',

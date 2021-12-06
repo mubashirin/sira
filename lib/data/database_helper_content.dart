@@ -28,6 +28,7 @@ class DatabaseHelperContent {
         : await getApplicationSupportDirectory();
 
     String _path = join(documentDirectory!.path, 'siraDB.db');
+    await deleteDatabase(_path);
 
     // String _toDeleteDB = '${documentDirectory.path}/fortress_db_3.db';
 
@@ -37,21 +38,21 @@ class DatabaseHelperContent {
     //   await deleteDatabase(_toDeleteDB);
     // }
 
-    var _exists = await databaseExists(_path);
+    // var _exists = await databaseExists(_path);
+    //
+    // if (!_exists) {
+    //   try {
+    //     await Directory(dirname(_path)).create(recursive: true);
+    //   } catch (_) {
+    //     Exception('Invalid database');
+    //   }
+    // }
 
-    if (!_exists) {
-      try {
-        await Directory(dirname(_path)).create(recursive: true);
-      } catch (_) {
-        Exception('Invalid database');
-      }
-
-      ByteData data =
-          await rootBundle.load(join('assets/databases', 'siraDB.db'));
-      List<int> bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-      await File(_path).writeAsBytes(bytes, flush: true);
-    }
+    ByteData data =
+    await rootBundle.load(join('assets/databases', 'siraDB.db'));
+    List<int> bytes =
+    data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    await File(_path).writeAsBytes(bytes, flush: true);
 
     var _onOpen = await openDatabase(_path, version: _databaseVersion);
     return _onOpen;

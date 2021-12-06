@@ -27,7 +27,7 @@ class DatabaseHelperChapter {
         ? await getExternalStorageDirectory()
         : await getApplicationSupportDirectory();
 
-    String _path = join(documentDirectory!.path, 'SiraChaptersDB.db');
+    String _path = join(documentDirectory!.path, 'siraDB.db');
 
     // String _toDeleteDB = '${documentDirectory.path}/fortress_db_3.db';
 
@@ -47,7 +47,7 @@ class DatabaseHelperChapter {
       }
 
       ByteData data =
-          await rootBundle.load(join('assets/databases', 'SiraChaptersDB.db'));
+          await rootBundle.load(join('assets/databases', 'siraDB.db'));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(_path).writeAsBytes(bytes, flush: true);
