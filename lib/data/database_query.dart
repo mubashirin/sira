@@ -18,6 +18,7 @@ class DatabaseQuery {
     return mainChapters!;
   }
 
+
   Future<List<SubChapterModel>> getOneSubChapter(int itemId) async {
     var dbClient = await con.db;
     var res = await dbClient.query('Table_of_sub_chapter',
